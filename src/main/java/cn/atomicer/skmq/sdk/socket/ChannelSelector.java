@@ -35,7 +35,7 @@ public class ChannelSelector implements Runnable {
                 SelectionKey.OP_WRITE;
     }
 
-    public static int sererOps() {
+    public static int serverOps() {
         return SelectionKey.OP_ACCEPT |
                 SelectionKey.OP_READ |
                 SelectionKey.OP_WRITE;
