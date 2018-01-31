@@ -6,6 +6,7 @@ import cn.atomicer.skmq.sdk.model.MessageTypeEnum;
 
 import java.io.IOException;
 import java.net.InetSocketAddress;
+import java.nio.ByteBuffer;
 import java.nio.channels.SelectionKey;
 import java.nio.channels.ServerSocketChannel;
 import java.nio.channels.SocketChannel;
@@ -41,7 +42,7 @@ public class OneTimeServiceThread extends Thread {
         try {
             SocketChannel socketChannel = channel.accept();
             ServerChannel serverChannel = new ServerChannel(socketChannel);
-            Thread.sleep(1000);
+            Thread.sleep(100);
             serverChannel.doAction(SelectionKey.OP_READ);
             Message msg = serverChannel.getInteraction().poolInputMessage();
             assertMessage.apply(msg);

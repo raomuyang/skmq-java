@@ -8,7 +8,6 @@ import org.junit.*;
 
 import java.io.IOException;
 import java.nio.channels.SelectionKey;
-import java.nio.channels.ServerSocketChannel;
 
 /**
  * Created by Rao-Mengnan
@@ -29,7 +28,7 @@ public class MessageChannelTest {
         thread.start();
 
         ClientChannel channel = new ClientChannel("127.0.0.1", port);
-        while (!channel.finishedConnect()) {
+        while (!channel.finishConnect()) {
         }
 
 
@@ -56,7 +55,7 @@ public class MessageChannelTest {
         thread.start();
 
         ClientChannel channel = new ClientChannel("127.0.0.1", port);
-        while (!channel.finishedConnect()) {
+        while (!channel.finishConnect()) {
         }
 
         int w = channel.write(OneTimeServiceThread.PING);

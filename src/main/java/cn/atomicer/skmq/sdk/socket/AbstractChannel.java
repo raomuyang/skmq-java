@@ -9,9 +9,7 @@ import cn.atomicer.skmq.sdk.model.MessageParameterEnum;
 
 import java.io.IOException;
 import java.nio.ByteBuffer;
-import java.nio.channels.ClosedChannelException;
 import java.nio.channels.SelectionKey;
-import java.nio.channels.Selector;
 import java.nio.channels.SocketChannel;
 
 /**
@@ -60,7 +58,7 @@ public abstract class AbstractChannel implements MessageChannel {
     }
 
     @Override
-    public boolean finishedConnect() throws IOException {
+    public boolean finishConnect() throws IOException {
         return channel.finishConnect();
     }
 

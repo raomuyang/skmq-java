@@ -6,9 +6,6 @@ import cn.atomicer.skmq.sdk.model.Message;
 
 import java.io.IOException;
 import java.nio.ByteBuffer;
-import java.nio.channels.ClosedChannelException;
-import java.nio.channels.SelectionKey;
-import java.nio.channels.Selector;
 import java.nio.channels.SocketChannel;
 
 /**
@@ -19,7 +16,7 @@ public interface MessageChannel {
     int read(MessageDecoder messageDecoder) throws IOException;
     int write(Message message) throws IOException;
     int write(ByteBuffer buffer) throws IOException;
-    boolean finishedConnect() throws IOException;
+    boolean finishConnect() throws IOException;
     void close();
 
     void doAction(int ops);
