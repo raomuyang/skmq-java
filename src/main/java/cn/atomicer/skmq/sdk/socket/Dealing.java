@@ -2,7 +2,7 @@ package cn.atomicer.skmq.sdk.socket;
 
 import cn.atomicer.skmq.sdk.coding.MessageDecoder;
 import cn.atomicer.skmq.sdk.functions.Function;
-import cn.atomicer.skmq.sdk.functions.Function0;
+import cn.atomicer.skmq.sdk.functions.Action;
 import cn.atomicer.skmq.sdk.model.Message;
 
 import java.util.Queue;
@@ -16,8 +16,8 @@ public class Dealing {
     private MessageDecoder decoder;
     private Queue<Message> outputMessages;
 
-    private Function0<Throwable> onReadError;
-    private Function0<Throwable> onWriteError;
+    private Action<Throwable> onReadError;
+    private Action<Throwable> onWriteError;
 
     public Dealing() {
         decoder = new MessageDecoder();
@@ -38,7 +38,7 @@ public class Dealing {
         try {
             func.apply(decoder);
         } catch (Exception e) {
-            onReadError.apply(e);
+            onReadError.doAction(e);
         }
     }
 
@@ -48,7 +48,7 @@ public class Dealing {
         try {
             func.apply(message);
         } catch (Exception e) {
-            onWriteError.apply(e);
+            onWriteError.doAction(e);
         }
     }
 
@@ -60,17 +60,17 @@ public class Dealing {
         return outputMessages.add(message);
     }
 
-    private static Function0<Throwable> DEFAULT_ON_ERROR = new Function0<Throwable>() {
+    private static Action<Throwable> DEFAULT_ON_ERROR = new Action<Throwable>() {
         @Override
-        public void apply(Throwable key) {
+        public void doAction(Throwable key) {
         }
     };
 
-    public void setOnReadError(Function0<Throwable> onReadError) {
+    public void setOnReadError(Action<Throwable> onReadError) {
         this.onReadError = onReadError;
     }
 
-    public void setOnWriteError(Function0<Throwable> onWriteError) {
+    public void setOnWriteError(Action<Throwable> onWriteError) {
         this.onWriteError = onWriteError;
     }
 }

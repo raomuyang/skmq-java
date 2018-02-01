@@ -1,6 +1,6 @@
 package cn.atomicer.skmq.sdk.socket;
 
-import cn.atomicer.skmq.sdk.functions.Function0;
+import cn.atomicer.skmq.sdk.functions.Action;
 import cn.atomicer.skmq.sdk.model.Message;
 import org.junit.Assert;
 import org.junit.Test;
@@ -15,9 +15,9 @@ public class ChannelSelectorTest {
     @Test
     public void testSelectReadAndWrite() throws IOException, InterruptedException {
         int port = 12345;
-        OneTimeServiceThread thread = new OneTimeServiceThread(port, new Function0<Message>() {
+        OneTimeServiceThread thread = new OneTimeServiceThread(port, new Action<Message>() {
             @Override
-            public void apply(Message key) {
+            public void doAction(Message key) {
                 Assert.assertEquals(OneTimeServiceThread.PING.getType(), key.getType());
             }
         });

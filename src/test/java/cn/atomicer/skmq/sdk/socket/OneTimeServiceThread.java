@@ -1,6 +1,6 @@
 package cn.atomicer.skmq.sdk.socket;
 
-import cn.atomicer.skmq.sdk.functions.Function0;
+import cn.atomicer.skmq.sdk.functions.Action;
 import cn.atomicer.skmq.sdk.model.Message;
 import cn.atomicer.skmq.sdk.model.MessageTypeEnum;
 
@@ -28,9 +28,9 @@ public class OneTimeServiceThread extends Thread {
 
     boolean checked;
     private ServerSocketChannel channel;
-    private Function0<Message> assertMessage;
+    private Action<Message> assertMessage;
 
-    OneTimeServiceThread(int port, Function0<Message> assertMessage) throws IOException {
+    OneTimeServiceThread(int port, Action<Message> assertMessage) throws IOException {
         this.channel = ServerSocketChannel.open();
         this.channel.bind(new InetSocketAddress(port));
         this.assertMessage = assertMessage;
@@ -44,7 +44,7 @@ public class OneTimeServiceThread extends Thread {
             Thread.sleep(100);
             serverChannel.doAction(SelectionKey.OP_READ);
             Message msg = serverChannel.getDealing().poolInputMessage();
-            assertMessage.apply(msg);
+            assertMessage.doAction(msg);
             checked = true;
             serverChannel.write(PONG);
         } catch (IOException | InterruptedException e) {

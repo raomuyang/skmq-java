@@ -3,7 +3,7 @@ package cn.atomicer.skmq.sdk.socket;
 import cn.atomicer.skmq.sdk.coding.MessageDecoder;
 import cn.atomicer.skmq.sdk.coding.MessageEncoder;
 import cn.atomicer.skmq.sdk.functions.Function;
-import cn.atomicer.skmq.sdk.functions.Function0;
+import cn.atomicer.skmq.sdk.functions.Action;
 import cn.atomicer.skmq.sdk.model.Message;
 import cn.atomicer.skmq.sdk.model.MessageParameterEnum;
 
@@ -107,7 +107,7 @@ public abstract class AbstractChannel implements MessageChannel {
     }
 
     @Override
-    public MessageChannel setOnError(Function0<Throwable> onReadError, Function0<Throwable> onWriteError) {
+    public MessageChannel setOnError(Action<Throwable> onReadError, Action<Throwable> onWriteError) {
         this.dealing.setOnReadError(onReadError);
         this.dealing.setOnWriteError(onWriteError);
         return this;

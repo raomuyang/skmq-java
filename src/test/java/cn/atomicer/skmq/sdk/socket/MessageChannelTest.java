@@ -1,7 +1,7 @@
 package cn.atomicer.skmq.sdk.socket;
 
 import cn.atomicer.skmq.sdk.coding.MessageEncoder;
-import cn.atomicer.skmq.sdk.functions.Function0;
+import cn.atomicer.skmq.sdk.functions.Action;
 import cn.atomicer.skmq.sdk.model.Message;
 import cn.atomicer.skmq.sdk.model.MessageParameterEnum;
 import org.junit.*;
@@ -19,9 +19,9 @@ public class MessageChannelTest {
     public void testAction() throws IOException, InterruptedException {
         int port = 12345;
 
-        OneTimeServiceThread thread = new OneTimeServiceThread(port, new Function0<Message>() {
+        OneTimeServiceThread thread = new OneTimeServiceThread(port, new Action<Message>() {
             @Override
-            public void apply(Message key) {
+            public void doAction(Message key) {
                 Assert.assertEquals(OneTimeServiceThread.PING.getType(), key.getType());
             }
         });
@@ -46,9 +46,9 @@ public class MessageChannelTest {
     @Test
     public void testWrite() throws IOException {
         int port = 12346;
-        OneTimeServiceThread thread = new OneTimeServiceThread(port, new Function0<Message>() {
+        OneTimeServiceThread thread = new OneTimeServiceThread(port, new Action<Message>() {
             @Override
-            public void apply(Message key) {
+            public void doAction(Message key) {
                 Assert.assertEquals(OneTimeServiceThread.PING.getType(), key.getType());
             }
         });

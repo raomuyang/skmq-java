@@ -1,7 +1,7 @@
 package cn.atomicer.skmq.sdk.socket;
 
 import cn.atomicer.skmq.sdk.coding.MessageDecoder;
-import cn.atomicer.skmq.sdk.functions.Function0;
+import cn.atomicer.skmq.sdk.functions.Action;
 import cn.atomicer.skmq.sdk.model.Message;
 
 import java.io.IOException;
@@ -20,7 +20,7 @@ public interface MessageChannel {
     void close();
 
     void doAction(int ops);
-    MessageChannel setOnError(Function0<Throwable> onReadError, Function0<Throwable> onWriteError);
+    MessageChannel setOnError(Action<Throwable> onReadError, Action<Throwable> onWriteError);
 
     Dealing getDealing();
     SocketChannel getChannel();
