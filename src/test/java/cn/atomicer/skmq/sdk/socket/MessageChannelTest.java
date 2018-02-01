@@ -59,7 +59,7 @@ public class MessageChannelTest {
         }
 
         int w = channel.write(OneTimeServiceThread.PING);
-        Assert.assertEquals(MessageEncoder.encode(OneTimeServiceThread.PING).length + MessageParameterEnum.MSG_END.value().length(), w);
+        Assert.assertEquals(MessageEncoder.encode(OneTimeServiceThread.PING).length, w);
 
     }
 

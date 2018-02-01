@@ -50,6 +50,6 @@ public class MessageEncoder {
             joinArray = ArrayUtils.addAll(joinArray, line);
             joinArray = ArrayUtils.addAll(joinArray, MessageParameterEnum.LINE_DELIMITER.value().getBytes());
         }
-        return joinArray;
+        return ArrayUtils.addAll(joinArray, MessageParameterEnum.MSG_END.value().getBytes());
     }
 }

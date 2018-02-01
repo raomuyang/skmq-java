@@ -40,12 +40,7 @@ public abstract class AbstractChannel implements MessageChannel {
     @Override
     public int write(Message message) throws IOException {
         byte[] bytes = MessageEncoder.encode(message);
-        byte[] end = MessageParameterEnum.MSG_END.value().getBytes();
-        ByteBuffer buffer = ByteBuffer.allocate(bytes.length + end.length);
-        buffer.put(bytes, 0, bytes.length);
-        buffer.put(end, 0, end.length);
-        buffer.flip();
-        return write(buffer);
+        return write(ByteBuffer.wrap(bytes));
     }
 
     @Override
