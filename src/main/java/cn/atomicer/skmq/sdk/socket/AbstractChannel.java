@@ -17,7 +17,7 @@ import java.nio.channels.SocketChannel;
  * on 2018/1/30.
  */
 public abstract class AbstractChannel implements MessageChannel {
-    private Interaction interaction = new Interaction();
+    private Dealing dealing = new Dealing();
     SocketChannel channel;
 
     @Override
@@ -81,13 +81,13 @@ public abstract class AbstractChannel implements MessageChannel {
 
         switch (ops) {
             case SelectionKey.OP_ACCEPT:
-                interaction.onAccept();
+                dealing.onAccept();
                 break;
             case SelectionKey.OP_CONNECT:
-                interaction.onConnect();
+                dealing.onConnect();
                 break;
             case SelectionKey.OP_READ:
-                interaction.onReadable(new Function<MessageDecoder, Integer>() {
+                dealing.onReadable(new Function<MessageDecoder, Integer>() {
                     @Override
                     public Integer apply(MessageDecoder decoder) throws Exception {
                         return read(decoder);
@@ -95,7 +95,7 @@ public abstract class AbstractChannel implements MessageChannel {
                 });
                 break;
             case SelectionKey.OP_WRITE:
-                interaction.onWriteable(new Function<Message, Integer>() {
+                dealing.onWriteable(new Function<Message, Integer>() {
                     @Override
                     public Integer apply(Message message) throws Exception {
                         return write(message);
@@ -108,14 +108,14 @@ public abstract class AbstractChannel implements MessageChannel {
 
     @Override
     public MessageChannel setOnError(Function0<Throwable> onReadError, Function0<Throwable> onWriteError) {
-        this.interaction.setOnReadError(onReadError);
-        this.interaction.setOnWriteError(onWriteError);
+        this.dealing.setOnReadError(onReadError);
+        this.dealing.setOnWriteError(onWriteError);
         return this;
     }
 
     @Override
-    public Interaction getInteraction() {
-        return this.interaction;
+    public Dealing getDealing() {
+        return this.dealing;
     }
 
 }

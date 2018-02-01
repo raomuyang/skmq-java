@@ -32,12 +32,12 @@ public class MessageChannelTest {
         }
 
 
-        channel.getInteraction().addOutputMessage(OneTimeServiceThread.PING);
+        channel.getDealing().addOutputMessage(OneTimeServiceThread.PING);
         channel.doAction(SelectionKey.OP_WRITE);
         Thread.sleep(2000);
 
         channel.doAction(SelectionKey.OP_READ);
-        Message res = channel.getInteraction().poolInputMessage();
+        Message res = channel.getDealing().poolInputMessage();
         Assert.assertEquals(OneTimeServiceThread.PONG.getType(), res.getType());
 
         Assert.assertEquals(true, thread.checked);

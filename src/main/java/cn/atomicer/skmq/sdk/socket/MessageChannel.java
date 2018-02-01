@@ -22,6 +22,6 @@ public interface MessageChannel {
     void doAction(int ops);
     MessageChannel setOnError(Function0<Throwable> onReadError, Function0<Throwable> onWriteError);
 
-    Interaction getInteraction();
+    Dealing getDealing();
     SocketChannel getChannel();
 }

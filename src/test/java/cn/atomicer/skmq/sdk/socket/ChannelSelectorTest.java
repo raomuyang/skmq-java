@@ -28,13 +28,13 @@ public class ChannelSelectorTest {
 
         ClientChannel clientChannel = new ClientChannel("127.0.0.1", port);
         channelSelector.channelRegister(clientChannel.getChannel(), ChannelSelector.clientOps(), clientChannel);
-        clientChannel.getInteraction().addOutputMessage(OneTimeServiceThread.PING);
+        clientChannel.getDealing().addOutputMessage(OneTimeServiceThread.PING);
 
         new Thread(channelSelector).start();
         Thread.sleep(1000);
 
         Assert.assertEquals(true, thread.checked);
-        Message msg = clientChannel.getInteraction().poolInputMessage();
+        Message msg = clientChannel.getDealing().poolInputMessage();
         Assert.assertNotNull(msg);
         Assert.assertEquals(OneTimeServiceThread.PONG.getType(), msg.getType());
     }

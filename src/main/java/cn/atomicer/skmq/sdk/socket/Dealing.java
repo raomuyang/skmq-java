@@ -12,14 +12,14 @@ import java.util.concurrent.ConcurrentLinkedQueue;
  * Created by Rao-Mengnan
  * on 2018/1/30.
  */
-public class Interaction {
+public class Dealing {
     private MessageDecoder decoder;
     private Queue<Message> outputMessages;
 
     private Function0<Throwable> onReadError;
     private Function0<Throwable> onWriteError;
 
-    public Interaction() {
+    public Dealing() {
         decoder = new MessageDecoder();
         outputMessages = new ConcurrentLinkedQueue<>();
         onReadError = DEFAULT_ON_ERROR;
