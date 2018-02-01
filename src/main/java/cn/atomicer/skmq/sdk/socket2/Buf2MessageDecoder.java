@@ -24,7 +24,8 @@ public class Buf2MessageDecoder extends ByteToMessageDecoder{
         if (byteBuf.readableBytes() < 8) {
             return;
         }
-        byte[] bytes = byteBuf.array();
+        byte[] bytes = new byte[byteBuf.readableBytes()];
+        byteBuf.readBytes(bytes);
         decoder.write(bytes, bytes.length);
 
         while (true) {
