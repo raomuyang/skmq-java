@@ -1,8 +1,9 @@
-package cn.atomicer.skmq.sdk.socket;
+package cn.atomicer.skmq.sdk;
 
 import cn.atomicer.skmq.sdk.functions.Action;
 import cn.atomicer.skmq.sdk.model.Message;
 import cn.atomicer.skmq.sdk.model.MessageTypeEnum;
+import cn.atomicer.skmq.sdk.socket.ServerChannel;
 
 import java.io.IOException;
 import java.net.InetSocketAddress;
@@ -16,8 +17,8 @@ import java.nio.channels.SocketChannel;
  */
 public class OneTimeServiceThread extends Thread {
 
-    final static Message PING;
-    final static Message PONG;
+    public final static Message PING;
+    public final static Message PONG;
 
     static {
         PING = new Message();
@@ -26,11 +27,11 @@ public class OneTimeServiceThread extends Thread {
         PONG.setType(MessageTypeEnum.PONG.value());
     }
 
-    boolean checked;
+    private boolean checked;
     private ServerSocketChannel channel;
     private Action<Message> assertMessage;
 
-    OneTimeServiceThread(int port, Action<Message> assertMessage) throws IOException {
+    public OneTimeServiceThread(int port, Action<Message> assertMessage) throws IOException {
         this.channel = ServerSocketChannel.open();
         this.channel.bind(new InetSocketAddress(port));
         this.assertMessage = assertMessage;
@@ -44,7 +45,9 @@ public class OneTimeServiceThread extends Thread {
             Thread.sleep(100);
             serverChannel.doAction(SelectionKey.OP_READ);
             Message msg = serverChannel.getDealing().poolInputMessage();
-            assertMessage.doAction(msg);
+            if (assertMessage != null) {
+                assertMessage.doAction(msg);
+            }
             checked = true;
             serverChannel.write(PONG);
         } catch (IOException | InterruptedException e) {
@@ -58,4 +61,7 @@ public class OneTimeServiceThread extends Thread {
         }
     }
 
+    public boolean isChecked() {
+        return checked;
+    }
 }

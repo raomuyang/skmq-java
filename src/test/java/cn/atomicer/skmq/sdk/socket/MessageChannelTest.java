@@ -1,9 +1,9 @@
 package cn.atomicer.skmq.sdk.socket;
 
+import cn.atomicer.skmq.sdk.OneTimeServiceThread;
 import cn.atomicer.skmq.sdk.coding.MessageEncoder;
 import cn.atomicer.skmq.sdk.functions.Action;
 import cn.atomicer.skmq.sdk.model.Message;
-import cn.atomicer.skmq.sdk.model.MessageParameterEnum;
 import org.junit.*;
 
 import java.io.IOException;
@@ -40,7 +40,7 @@ public class MessageChannelTest {
         Message res = channel.getDealing().poolInputMessage();
         Assert.assertEquals(OneTimeServiceThread.PONG.getType(), res.getType());
 
-        Assert.assertEquals(true, thread.checked);
+        Assert.assertEquals(true, thread.isChecked());
     }
 
     @Test

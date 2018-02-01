@@ -1,5 +1,6 @@
 package cn.atomicer.skmq.sdk.socket;
 
+import cn.atomicer.skmq.sdk.OneTimeServiceThread;
 import cn.atomicer.skmq.sdk.functions.Action;
 import cn.atomicer.skmq.sdk.model.Message;
 import org.junit.Assert;
@@ -33,7 +34,7 @@ public class ChannelSelectorTest {
         new Thread(channelSelector).start();
         Thread.sleep(1000);
 
-        Assert.assertEquals(true, thread.checked);
+        Assert.assertEquals(true, thread.isChecked());
         Message msg = clientChannel.getDealing().poolInputMessage();
         Assert.assertNotNull(msg);
         Assert.assertEquals(OneTimeServiceThread.PONG.getType(), msg.getType());
