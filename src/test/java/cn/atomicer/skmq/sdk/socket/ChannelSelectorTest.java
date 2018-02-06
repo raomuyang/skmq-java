@@ -15,7 +15,7 @@ import java.io.IOException;
 public class ChannelSelectorTest {
     @Test
     public void testSelectReadAndWrite() throws IOException, InterruptedException {
-        int port = 12345;
+        int port = 10000;
         OneTimeServiceThread thread = new OneTimeServiceThread(port, new Action<Message>() {
             @Override
             public void doAction(Message key) {
@@ -34,9 +34,12 @@ public class ChannelSelectorTest {
         new Thread(channelSelector).start();
         Thread.sleep(1000);
 
+        Assert.assertEquals(OneTimeServiceThread.PING, thread.getQueue().poll());
         Assert.assertEquals(true, thread.isChecked());
+
+
         Message msg = clientChannel.getDealing().poolInputMessage();
         Assert.assertNotNull(msg);
-        Assert.assertEquals(OneTimeServiceThread.PONG.getType(), msg.getType());
+        Assert.assertEquals(OneTimeServiceThread.PONG, msg);
     }
 }

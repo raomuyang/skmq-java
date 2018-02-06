@@ -17,7 +17,7 @@ public class MessageChannelTest {
 
     @Test
     public void testAction() throws IOException, InterruptedException {
-        int port = 12345;
+        int port = 10001;
 
         OneTimeServiceThread thread = new OneTimeServiceThread(port, new Action<Message>() {
             @Override
@@ -38,14 +38,15 @@ public class MessageChannelTest {
 
         channel.doAction(SelectionKey.OP_READ);
         Message res = channel.getDealing().poolInputMessage();
-        Assert.assertEquals(OneTimeServiceThread.PONG.getType(), res.getType());
+        Assert.assertEquals(OneTimeServiceThread.PONG, res);
 
         Assert.assertEquals(true, thread.isChecked());
+        Assert.assertEquals(OneTimeServiceThread.PING, thread.getQueue().poll());
     }
 
     @Test
     public void testWrite() throws IOException {
-        int port = 12346;
+        int port = 10010;
         OneTimeServiceThread thread = new OneTimeServiceThread(port, new Action<Message>() {
             @Override
             public void doAction(Message key) {

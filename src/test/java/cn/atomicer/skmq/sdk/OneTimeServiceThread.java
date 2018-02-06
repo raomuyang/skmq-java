@@ -10,6 +10,7 @@ import java.net.InetSocketAddress;
 import java.nio.channels.SelectionKey;
 import java.nio.channels.ServerSocketChannel;
 import java.nio.channels.SocketChannel;
+import java.util.concurrent.ConcurrentLinkedQueue;
 
 /**
  * Created by Rao-Mengnan
@@ -30,11 +31,13 @@ public class OneTimeServiceThread extends Thread {
     private boolean checked;
     private ServerSocketChannel channel;
     private Action<Message> assertMessage;
+    private ConcurrentLinkedQueue<Message> queue;
 
     public OneTimeServiceThread(int port, Action<Message> assertMessage) throws IOException {
         this.channel = ServerSocketChannel.open();
         this.channel.bind(new InetSocketAddress(port));
         this.assertMessage = assertMessage;
+        this.queue = new ConcurrentLinkedQueue<>();
     }
 
     @Override
@@ -47,8 +50,9 @@ public class OneTimeServiceThread extends Thread {
             Message msg = serverChannel.getDealing().poolInputMessage();
             if (assertMessage != null) {
                 assertMessage.doAction(msg);
+                checked = true;
             }
-            checked = true;
+            queue.add(msg);
             serverChannel.write(PONG);
         } catch (IOException | InterruptedException e) {
             e.printStackTrace();
@@ -59,6 +63,10 @@ public class OneTimeServiceThread extends Thread {
                 e.printStackTrace();
             }
         }
+    }
+
+    public ConcurrentLinkedQueue<Message> getQueue() {
+        return queue;
     }
 
     public boolean isChecked() {
