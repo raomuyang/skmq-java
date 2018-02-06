@@ -43,16 +43,22 @@ public class RecipientServerTest {
                 .setAction(clientOnMessage, null)
                 .build();
 
-        client.newConnect().sync().channel().writeAndFlush(MessageEncoder.PING);
-        client.newConnect().sync().channel().writeAndFlush(MessageEncoder.PING);
-        Thread.sleep(1000);
+        client.newConnect().sync().channel().writeAndFlush(DEFAULT_MSG);
+        Thread.sleep(500);
 
-        Assert.assertEquals(MessageEncoder.PING, onMessage.queue.poll());
-        Assert.assertEquals(MessageEncoder.PING, onMessage.queue.poll());
+        Assert.assertEquals(DEFAULT_MSG, onMessage.queue.poll());
         Assert.assertEquals(null, onMessage.queue.poll());
 
         Assert.assertEquals(DEFAULT_MSG, clientOnMessage.queue.poll());
-        Assert.assertEquals(DEFAULT_MSG, clientOnMessage.queue.poll());
+        Assert.assertEquals(null, clientOnMessage.queue.poll());
+
+        client.newConnect().sync().channel().writeAndFlush(MessageEncoder.PING);
+        Thread.sleep(500);
+
+        Assert.assertEquals(MessageEncoder.PING, onMessage.queue.poll());
+        Assert.assertEquals(null, onMessage.queue.poll());
+
+        Assert.assertEquals(MessageEncoder.PONG, clientOnMessage.queue.poll());
         Assert.assertEquals(null, clientOnMessage.queue.poll());
 
         server.shutdown();
@@ -65,6 +71,7 @@ public class RecipientServerTest {
         public void doAction(ChannelHandlerContext channelHandlerContext, Message message) throws Exception {
             queue.add(message);
             System.out.println(message);
+            if (MessageEncoder.PING.equals(message)) return;
             channelHandlerContext.writeAndFlush(DEFAULT_MSG);
         }
     }
