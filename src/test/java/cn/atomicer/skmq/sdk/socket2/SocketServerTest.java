@@ -15,7 +15,7 @@ import java.util.concurrent.ConcurrentLinkedQueue;
  * Created by Rao-Mengnan
  * on 2018/2/6.
  */
-public class RecipientServerTest {
+public class SocketServerTest {
 
     static final Message DEFAULT_MSG;
     static {
@@ -31,7 +31,7 @@ public class RecipientServerTest {
 
         OnMessage onMessage = new OnMessage();
         OnError onError = new OnError();
-        RecipientServer server = new RecipientServer
+        SocketServer server = new SocketServer
                 .Builder(port)
                 .setBossThread(0)
                 .setAction(onMessage, onError)
@@ -39,7 +39,7 @@ public class RecipientServerTest {
         ChannelFuture future = server.startUp();
 
         ClientOnMessage clientOnMessage = new ClientOnMessage();
-        SKClient client = new SKClient.Builder("127.0.0.1", port)
+        SocketClient client = new SocketClient.Builder("127.0.0.1", port)
                 .setAction(clientOnMessage, null)
                 .build();
 

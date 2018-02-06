@@ -1,7 +1,6 @@
 package cn.atomicer.skmq.sdk.socket2;
 
 import cn.atomicer.skmq.sdk.coding.MessageEncoder;
-import cn.atomicer.skmq.sdk.functions.Action;
 import cn.atomicer.skmq.sdk.functions.Action2;
 import cn.atomicer.skmq.sdk.model.Message;
 import cn.atomicer.skmq.sdk.OneTimeServiceThread;
@@ -12,14 +11,13 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import java.io.IOException;
-import java.util.StringJoiner;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
 /**
  * Created by Rao-Mengnan
  * on 2018/2/1.
  */
-public class SKClientTest {
+public class SocketClientTest {
 
     private static final Action2<ChannelHandlerContext, Throwable> ON_ERROR = new Action2<ChannelHandlerContext, Throwable>() {
         @Override
@@ -37,7 +35,7 @@ public class SKClientTest {
         thread.start();
 
         MessageAction2 checkMessage = new MessageAction2();
-        SKClient client = new SKClient.Builder("127.0.0.1", port)
+        SocketClient client = new SocketClient.Builder("127.0.0.1", port)
                 .setAction(checkMessage, ON_ERROR)
                 .setThread(2)
                 .build();

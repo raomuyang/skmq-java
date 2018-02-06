@@ -13,7 +13,7 @@ import io.netty.channel.socket.nio.NioSocketChannel;
  * Created by Rao-Mengnan
  * on 2018/2/1.
  */
-public class SKClient {
+public class SocketClient {
     private EventLoopGroup group;
     private Bootstrap bootstrap;
     private int threads = 0;
@@ -24,9 +24,9 @@ public class SKClient {
     private Action2<ChannelHandlerContext, Throwable> onError;
 
     public static class Builder {
-        private SKClient skClient;
+        private SocketClient skClient;
         public Builder(String host, int port) {
-            skClient = new SKClient(host, port);
+            skClient = new SocketClient(host, port);
         }
 
         public Builder setAction(Action2<ChannelHandlerContext, Message> onMessage,
@@ -43,14 +43,14 @@ public class SKClient {
             return this;
         }
 
-        public SKClient build() {
+        public SocketClient build() {
             skClient.init();
             return skClient;
         }
 
     }
 
-    private SKClient(String host, int port) {
+    private SocketClient(String host, int port) {
         this.host = host;
         this.port = port;
     }
@@ -59,7 +59,7 @@ public class SKClient {
         group = new NioEventLoopGroup(threads);
         bootstrap = new Bootstrap();
         bootstrap.group(group).channel(NioSocketChannel.class)
-                .handler(new SKClientInitializer(onMessage, onError));
+                .handler(new SocketClientInitializer(onMessage, onError));
     }
 
     public ChannelFuture newConnect() {

@@ -12,15 +12,15 @@ import io.netty.channel.socket.SocketChannel;
  * Created by Rao-Mengnan
  * on 2018/2/1.
  */
-public class SKClientInitializer extends ChannelInitializer<SocketChannel> {
+public class SocketClientInitializer extends ChannelInitializer<SocketChannel> {
 
     private Action2<ChannelHandlerContext, Message> onMessage;
     private Action2<ChannelHandlerContext, Throwable> onError;
 
-    public SKClientInitializer() {
+    public SocketClientInitializer() {
     }
 
-    public SKClientInitializer(Action2<ChannelHandlerContext, Message> onMessage, Action2<ChannelHandlerContext, Throwable> onError) {
+    public SocketClientInitializer(Action2<ChannelHandlerContext, Message> onMessage, Action2<ChannelHandlerContext, Throwable> onError) {
         this.onMessage = onMessage;
         this.onError = onError;
     }
@@ -31,7 +31,7 @@ public class SKClientInitializer extends ChannelInitializer<SocketChannel> {
         pipeline.addLast(new Buf2MessageDecoder());
         pipeline.addLast(new Message2BufEncoder());
 
-        SKClientHandler handler = new SKClientHandler();
+        SocketClientHandler handler = new SocketClientHandler();
         handler.setAction(onMessage, onError);
         pipeline.addLast(handler);
     }

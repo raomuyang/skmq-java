@@ -8,7 +8,7 @@ import io.netty.channel.ChannelHandlerContext;
  * Created by Rao-Mengnan
  * on 2018/2/1.
  */
-public class RecipientServerHandler extends AbstractHandler {
+public class SocketServerHandler extends AbstractHandler {
 
 
     @Override

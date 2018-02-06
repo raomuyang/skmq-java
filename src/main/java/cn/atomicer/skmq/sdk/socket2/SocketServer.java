@@ -13,7 +13,7 @@ import io.netty.channel.socket.nio.NioServerSocketChannel;
  * Created by Rao-Mengnan
  * on 2018/2/1.
  */
-public class RecipientServer {
+public class SocketServer {
     private int port;
     private int bossThreads = 1;
     private int workerThreads = 1;
@@ -25,10 +25,10 @@ public class RecipientServer {
     private Action2<ChannelHandlerContext, Throwable> onError;
 
     public static class Builder {
-        private RecipientServer server;
+        private SocketServer server;
 
         public Builder(int port) {
-            this.server = new RecipientServer(port);
+            this.server = new SocketServer(port);
         }
 
         public Builder setAction(Action2<ChannelHandlerContext, Message> onMessage,
@@ -52,13 +52,13 @@ public class RecipientServer {
             return this;
         }
 
-        public RecipientServer build() {
+        public SocketServer build() {
             server.init();
             return server;
         }
     }
 
-    private RecipientServer(int port) {
+    private SocketServer(int port) {
         this.port = port;
     }
 
@@ -68,7 +68,7 @@ public class RecipientServer {
         workerGroup = new NioEventLoopGroup(workerThreads);
         bootstrap.group(bossGroup, workerGroup)
                 .channel(NioServerSocketChannel.class)
-                .childHandler(new RecipientServerInitializer(onMessage, onError));
+                .childHandler(new SocketServerInitializer(onMessage, onError));
     }
 
     public ChannelFuture startUp() {
