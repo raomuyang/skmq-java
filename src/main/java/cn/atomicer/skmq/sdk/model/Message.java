@@ -23,6 +23,13 @@ public class Message {
         this.type = type;
     }
 
+    public Message(String msgId, String appId, String type, byte[] content) {
+        this.msgId = msgId;
+        this.appId = appId;
+        this.type = type;
+        this.content = content;
+    }
+
     public String getMsgId() {
         return msgId;
     }
