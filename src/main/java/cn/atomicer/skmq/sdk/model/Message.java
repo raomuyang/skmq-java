@@ -16,6 +16,13 @@ public class Message {
     private String type;
     private byte[] content;
 
+    public Message() {
+    }
+
+    public Message(String type) {
+        this.type = type;
+    }
+
     public String getMsgId() {
         return msgId;
     }
@@ -56,5 +63,27 @@ public class Message {
                 ", type='" + type + '\'' +
                 ", content=" + Arrays.toString(content) +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Message message = (Message) o;
+
+        if (msgId != null ? !msgId.equals(message.msgId) : message.msgId != null) return false;
+        if (appId != null ? !appId.equals(message.appId) : message.appId != null) return false;
+        if (type != null ? !type.equals(message.type) : message.type != null) return false;
+        return Arrays.equals(content, message.content);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = msgId != null ? msgId.hashCode() : 0;
+        result = 31 * result + (appId != null ? appId.hashCode() : 0);
+        result = 31 * result + (type != null ? type.hashCode() : 0);
+        result = 31 * result + Arrays.hashCode(content);
+        return result;
     }
 }

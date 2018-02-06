@@ -31,7 +31,8 @@ public class SKClientInitializer extends ChannelInitializer<SocketChannel> {
         pipeline.addLast(new Buf2MessageDecoder());
         pipeline.addLast(new Message2BufEncoder());
 
-        SKClientHandler handler = new SKClientHandler().setAction(onMessage, onError);
+        SKClientHandler handler = new SKClientHandler();
+        handler.setAction(onMessage, onError);
         pipeline.addLast(handler);
     }
 }

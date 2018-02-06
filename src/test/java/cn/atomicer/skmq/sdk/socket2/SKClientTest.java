@@ -1,5 +1,6 @@
 package cn.atomicer.skmq.sdk.socket2;
 
+import cn.atomicer.skmq.sdk.coding.MessageEncoder;
 import cn.atomicer.skmq.sdk.functions.Action;
 import cn.atomicer.skmq.sdk.functions.Action2;
 import cn.atomicer.skmq.sdk.model.Message;
@@ -11,6 +12,8 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import java.io.IOException;
+import java.util.StringJoiner;
+import java.util.concurrent.ConcurrentLinkedQueue;
 
 /**
  * Created by Rao-Mengnan
@@ -35,21 +38,12 @@ public class SKClientTest {
     @Test
     public void testClient() throws IOException, InterruptedException {
         int port = 1234;
-        OneTimeServiceThread thread = new OneTimeServiceThread(port, new Action<Message>() {
 
-            @Override
-            public void doAction(Message key) {
-                Assert.assertEquals(OneTimeServiceThread.PING.getType(), key.getType());
-            }
-        });
+        MessageAction1 serverAction = new MessageAction1();
+        OneTimeServiceThread thread = new OneTimeServiceThread(port, serverAction);
         thread.start();
 
-        Action2<ChannelHandlerContext, Message> checkMessage = new Action2<ChannelHandlerContext, Message>(){
-            @Override
-            public void doAction(ChannelHandlerContext channelHandlerContext, Message message) throws Exception {
-                Assert.assertEquals(OneTimeServiceThread.PONG.getType(), message.getType());
-            }
-        };
+        MessageAction2 checkMessage = new MessageAction2();
         SKClient client = new SKClient.Builder("127.0.0.1", port)
                 .setAction(checkMessage, ON_ERROR)
                 .setThread(2)
@@ -62,5 +56,36 @@ public class SKClientTest {
         Thread.sleep(200);
         client.shutdown();
 
+        Assert.assertEquals(false, serverAction.queue.isEmpty());
+        Assert.assertEquals(MessageEncoder.PING, serverAction.queue.poll());
+        Assert.assertEquals(true, serverAction.queue.isEmpty());
+
+        Assert.assertEquals(false, checkMessage.queue.isEmpty());
+        Assert.assertEquals(MessageEncoder.PONG, checkMessage.queue.poll());
+        Assert.assertEquals(true, checkMessage.queue.isEmpty());
+
     }
+
+    class MessageAction1 implements Action<Message> {
+
+        ConcurrentLinkedQueue<Message> queue = new ConcurrentLinkedQueue<>();
+
+        @Override
+        public void doAction(Message key) {
+            System.out.println(key);
+            queue.add(key);
+        }
+    }
+
+    class MessageAction2 implements Action2<ChannelHandlerContext, Message> {
+
+        ConcurrentLinkedQueue<Message> queue = new ConcurrentLinkedQueue<>();
+
+        @Override
+        public void doAction(ChannelHandlerContext channelHandlerContext, Message message) throws Exception {
+            System.out.println(message);
+            queue.add(message);
+        }
+    }
+
 }

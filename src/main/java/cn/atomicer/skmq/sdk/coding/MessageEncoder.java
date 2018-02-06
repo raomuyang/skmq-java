@@ -16,6 +16,14 @@ import java.util.Map;
  */
 public class MessageEncoder {
 
+    public static final Message PING;
+    public static final Message PONG;
+
+    static {
+        PING = new Message(MessageTypeEnum.PING.value());
+        PONG = new Message(MessageTypeEnum.PONG.value());
+    }
+
     public static byte[] encode(Message message) {
         if (MessageTypeEnum.PING.value().equals(message.getType()) ||
                 MessageTypeEnum.PING.value().equals(message.getType())) {

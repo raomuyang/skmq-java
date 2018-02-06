@@ -16,7 +16,7 @@ import io.netty.channel.socket.nio.NioSocketChannel;
 public class SKClient {
     private EventLoopGroup group;
     private Bootstrap bootstrap;
-    private int threads = 4;
+    private int threads = 0;
     private String host;
     private int port;
 
@@ -37,7 +37,9 @@ public class SKClient {
         }
 
         public Builder setThread(int threads) {
-            skClient.threads = threads;
+            if (threads >= 0) {
+                skClient.threads = threads;
+            }
             return this;
         }
 
