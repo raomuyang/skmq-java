@@ -5,15 +5,15 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>skmq</groupId>
-    <artifactId>skmq-java</artifactId>
+    <artifactId>skmq-java-tool</artifactId>
     <version>1.0.0</version>
 
     <packaging>jar</packaging>
     <description>
-        SDK for sikong-mq.
+        Tools for sikong-mq.
         Please Use JDK 1.7+.
     </description>
-    <name>skmq-java-sdk</name>
+    <name>skmq-java-tool</name>
     <url>https://github.com/raomuyang/sikong-mq</url>
 
     <properties>
