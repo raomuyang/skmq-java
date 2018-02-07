@@ -1,5 +1,6 @@
 # SKMQ Java Sdk
 
+![build-result](https://travis-ci.org/raomuyang/skmq-java.svg?branch=master)
 Bootstrap a server/client to communicate with Sikong-MQ
 
 * Asynchronous io    异步IO
