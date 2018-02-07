@@ -1,7 +1,7 @@
 package cn.atomicer.skmq.sdk.coding;
 
-import cn.atomicer.skmq.sdk.coding.MessageEncoder;
 import cn.atomicer.skmq.sdk.model.Message;
+import cn.atomicer.skmq.sdk.model.MessageParameterEnum;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -17,7 +17,7 @@ public class MessageEncoderTest {
 
         byte[] bytes = MessageEncoder.encode(message);
         String appIdEncode = String.format("appid=%s\r\n", message.getAppId());
-        Assert.assertEquals(appIdEncode, new String(bytes));
+        Assert.assertEquals(appIdEncode + MessageParameterEnum.MSG_END.value(), new String(bytes));
 
         message.setMsgId("message=id");
         String msgIdEncode = String.format("msgid=%s\r\n", message.getMsgId());
