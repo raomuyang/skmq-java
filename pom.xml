@@ -6,11 +6,21 @@
 
     <groupId>skmq</groupId>
     <artifactId>skmq-java</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>1.0.0</version>
+
+    <packaging>jar</packaging>
+    <description>
+        SDK for sikong-mq.
+        Please Use JDK 1.7+.
+    </description>
+    <name>official-java-sdk</name>
+    <url>https://github.com/raomuyang/sikong-mq</url>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <apache.logging.version>2.8.1</apache.logging.version>
+        <maven.compiler.source>1.7</maven.compiler.source>
+        <maven.compiler.target>1.7</maven.compiler.target>
     </properties>
 
     <dependencies>
@@ -44,16 +54,19 @@
             <artifactId>log4j-api</artifactId>
             <version>${apache.logging.version}</version>
         </dependency>
+
         <dependency>
             <groupId>org.apache.logging.log4j</groupId>
             <artifactId>log4j-core</artifactId>
             <version>${apache.logging.version}</version>
         </dependency>
+
         <dependency>
             <groupId>org.apache.logging.log4j</groupId>
             <artifactId>log4j-jcl</artifactId>
             <version>${apache.logging.version}</version>
         </dependency>
+
     </dependencies>
 
 </project>
