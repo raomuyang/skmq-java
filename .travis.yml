@@ -1,8 +1,10 @@
 language: java
 jdk:
-- oraclejdk8
+  - oraclejdk8
 script:
-- mvn test
+  - mvn test
+  - mvn jacoco:report
+  - mvn coveralls:report -DrepoToken="${COVERALLS_TOKEN}"
 env:
   global:
     secure: QWqLMVcLgUNBn+2M7/dkxmhlXEDV78zUavYJ4uW21Ql3g6v5QrYtGAq5OnqKZF99FFVnMGeg+39D1Uaq0D3oHJTlzQJCdMl78KBWHpX4l33OuVaX9TJbXFK0k0YD4tICey+6fzWzc5P/vW36RdNGGIdBEN9UkkpmWxRTeYg7IkcMjanmD9Pe7lJ2krE6Tn48skNakfyjyK5JRfMQYzuLYKEwxC8Smm5XQMNvUied5N6K/CPOFmsaUHVWh9FAqjoGJSVs/RUki+o4YMywUSPvVMPVdxkn0ZEvpCcydATJm/BSHlV0jXiBtw6ayai8j5L6Bx80SqxUV/mpn5jtQwa2HnW2taxy5YJQ+VdVy4KjChBCBep3z5CVJo9DzQgg18L2NEKSvx2/JrEAHpGb+88JjDVu4DhdKDHM2ohlSoq2l5oUk10s72sWT8GRYFfHAEFLVR01OrvFEwjFqG8K6yAtHbrGDywL4nlHOMaP1ZSynM7t0fq4kbsVh6cyDGjs7R7dPrKjMdsJBKp2Rw+SSnBTFfrRzZAR4iQKwpQ8DH/Z2AzxKOKGNW6Xj2EV+DaaoLMDfkdc30axN3R7h4U+u7Nu2Bv9bCWIRdLzbnCbPDZKvMVQWHSh8ONBK2UIUhhRNg0cvOc5GP0kSUvOFLebVeEEzFXnuPbnSGYn7Xhx00oOcog=
