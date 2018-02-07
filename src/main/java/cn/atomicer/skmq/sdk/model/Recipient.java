@@ -13,7 +13,18 @@ public class Recipient {
     private String applicationId;
     private String host;
     private int port;
-    private String weight;
+    private int weight;
+
+    public Recipient() {
+    }
+
+    public Recipient(String recipientId, String applicationId, String host, int port, int weight) {
+        this.recipientId = recipientId;
+        this.applicationId = applicationId;
+        this.host = host;
+        this.port = port;
+        this.weight = weight;
+    }
 
     public String getRecipientId() {
         return recipientId;
@@ -47,11 +58,11 @@ public class Recipient {
         this.port = port;
     }
 
-    public String getWeight() {
+    public int getWeight() {
         return weight;
     }
 
-    public void setWeight(String weight) {
+    public void setWeight(int weight) {
         this.weight = weight;
     }
 }

@@ -20,9 +20,6 @@ import static cn.atomicer.skmq.sdk.util.ObjectUtil.ensureNotNull;
 public class RecipientServer {
     private Log log = LogFactory.getLog(getClass());
 
-    private static final int DEFAULT_BOOS_THREAD = 1;
-    private static final int DEFAULT_WORKER_THREAD = 4;
-
     private SocketServer server;
     private Recipient recipient;
 
