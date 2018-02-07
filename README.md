@@ -1,4 +1,4 @@
-# SKMQ Java Sdk
+# SKMQ Java Tool
 
 [![Build Status](https://travis-ci.org/raomuyang/skmq-java-tool.svg?branch=master)](https://travis-ci.org/raomuyang/skmq-java-tool)  [![Coverage Status](https://coveralls.io/repos/github/raomuyang/skmq-java-tool/badge.svg?branch=coveralls)](https://coveralls.io/github/raomuyang/skmq-java-tool?branch=coveralls)
 
