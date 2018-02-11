@@ -31,5 +31,6 @@ public class Client {
                 .sync().channel()
                 .writeAndFlush(MessageEncoder.PING)
                 .channel().closeFuture().sync();
+        client.shutdown();
     }
 }
