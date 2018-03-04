@@ -1,9 +1,9 @@
 package cn.atomicer.skmq.sdk.socket2;
 
+import cn.atomicer.skmq.sdk.OneTimeServiceThread;
 import cn.atomicer.skmq.sdk.coding.MessageEncoder;
 import cn.atomicer.skmq.sdk.functions.Action2;
 import cn.atomicer.skmq.sdk.model.Message;
-import cn.atomicer.skmq.sdk.OneTimeServiceThread;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelHandlerContext;
@@ -34,9 +34,14 @@ public class SocketClientTest {
         OneTimeServiceThread thread = new OneTimeServiceThread(port, null);
         thread.start();
 
+        HandlerCreator<Message> handlerCreator = new HandlerCreator<>(
+                CodecCreator.DEFAULT_ENCODER_CREATOR, CodecCreator.DEFAULT_DECODER_CREATOR
+        );
         MessageAction2 checkMessage = new MessageAction2();
-        SocketClient client = new SocketClient.Builder("127.0.0.1", port)
-                .setAction(checkMessage, ON_ERROR)
+        handlerCreator.setAction(checkMessage, ON_ERROR);
+
+        SocketClient client = new SocketClient.Builder<Message>("127.0.0.1", port)
+                .setHandlerCreator(handlerCreator)
                 .setThread(2)
                 .build();
 
@@ -45,6 +50,7 @@ public class SocketClientTest {
 
         channel.writeAndFlush(OneTimeServiceThread.PING);
         Thread.sleep(200);
+        channel.close().sync();
         client.shutdown();
 
         Assert.assertEquals(MessageEncoder.PING, thread.getQueue().poll());
@@ -53,7 +59,6 @@ public class SocketClientTest {
         Assert.assertEquals(false, checkMessage.queue.isEmpty());
         Assert.assertEquals(MessageEncoder.PONG, checkMessage.queue.poll());
         Assert.assertEquals(true, checkMessage.queue.isEmpty());
-
     }
 
     class MessageAction2 implements Action2<ChannelHandlerContext, Message> {

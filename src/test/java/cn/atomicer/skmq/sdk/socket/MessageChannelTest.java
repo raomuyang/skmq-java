@@ -14,7 +14,7 @@ import java.nio.channels.SelectionKey;
  * on 2018/1/30.
  */
 public class MessageChannelTest {
-
+    private static MessageEncoder encoder = new MessageEncoder();
     @Test
     public void testAction() throws IOException, InterruptedException {
         int port = 10001;
@@ -60,7 +60,7 @@ public class MessageChannelTest {
         }
 
         int w = channel.write(OneTimeServiceThread.PING);
-        Assert.assertEquals(MessageEncoder.encode(OneTimeServiceThread.PING).length, w);
+        Assert.assertEquals(encoder.encode(OneTimeServiceThread.PING).length, w);
 
     }
 

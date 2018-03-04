@@ -3,8 +3,10 @@ package cn.atomicer.skmq.sdk.model;
 import com.google.gson.annotations.SerializedName;
 
 /**
- * Created by Rao-Mengnan
- * on 2018/1/29.
+ * SKMQ recipient's properties
+ *
+ * @author Rao-Mengnan
+ *         on 2018/1/29.
  */
 public class Recipient {
     @SerializedName("id")

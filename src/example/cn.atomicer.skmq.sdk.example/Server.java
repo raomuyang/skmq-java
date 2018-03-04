@@ -1,9 +1,10 @@
 package cn.atomicer.skmq.sdk.example;
 
 import cn.atomicer.skmq.sdk.coding.MessageEncoder;
+import cn.atomicer.skmq.sdk.model.Message;
 import cn.atomicer.skmq.sdk.model.Recipient;
 import cn.atomicer.skmq.sdk.recipient.RecipientServer;
-import cn.atomicer.skmq.sdk.socket2.SocketServer;
+import cn.atomicer.skmq.sdk.socket2.*;
 import io.netty.channel.ChannelFuture;
 
 /**
@@ -17,21 +18,26 @@ public class Server {
         Recipient recipient = new Recipient(
                 "recipientId", "applicationId", "host", port, 0);
 
+        HandlerCreator<Message> serverHandlerCreator = new HandlerCreator<>(
+                CodecCreator.DEFAULT_ENCODER_CREATOR
+                , CodecCreator.DEFAULT_DECODER_CREATOR
+        ).setAction(
+                (channelHandlerContext, message) -> {
+                    // do something
+                    // 消息到达时，耗时的业务应另起线程进行处理
+                    System.out.println(message);
+                    channelHandlerContext.writeAndFlush(MessageEncoder.PONG);
+                },
+                (channelHandlerContext, throwable) -> {
+                    // do something
+                    throwable.printStackTrace();
+                });
+
         SocketServer server = new SocketServer
-                .Builder(port)
+                .Builder<Message>(port)
                 .setBossThread(1)
                 .setWorkerThread(4)
-                .setAction(
-                        (channelHandlerContext, message) -> {
-                            // do something
-                            // 消息到达时，耗时的业务应另起线程进行处理
-                            System.out.println(message);
-                            channelHandlerContext.writeAndFlush(MessageEncoder.PONG);
-                        },
-                        (channelHandlerContext, throwable) -> {
-                            // do something
-                            throwable.printStackTrace();
-                        })
+                .setHandlerCreator(serverHandlerCreator)
                 .build();
 
         RecipientServer recipientServer = new RecipientServer(server, recipient);

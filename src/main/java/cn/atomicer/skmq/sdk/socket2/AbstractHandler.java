@@ -1,40 +1,51 @@
 package cn.atomicer.skmq.sdk.socket2;
 
 import cn.atomicer.skmq.sdk.functions.Action2;
-import cn.atomicer.skmq.sdk.model.Message;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 /**
- * Created by Rao-Mengnan
- * on 2018/2/1.
+ * AbstractHandler extends the {@link SimpleChannelInboundHandler}, which automatically creates the corresponding
+ * codec in the connection through the {@code encoderCreator} domain and the
+ * {@code decoderCreator} domain. The {@code onMessage} domain is responsible
+ * for processing the message as it is received. {@code onError} field is
+ * responsible for completing the action when an error occurs
+ *
+ * @author Rao-Mengnan
+ *         on 2018/2/1.
  */
-public abstract class AbstractHandler extends SimpleChannelInboundHandler<Message> {
+public abstract class AbstractHandler<I> extends SimpleChannelInboundHandler {
 
     Log log = LogFactory.getLog(getClass());
-    Action2<ChannelHandlerContext, Message> onMessage = DEFAULT_ON_MESSAGE;
-    Action2<ChannelHandlerContext, Throwable> onError = DEFAULT_ON_ERROR;
 
-    public void setAction(Action2<ChannelHandlerContext, Message> onMessage,
-                                     Action2<ChannelHandlerContext, Throwable> onError) {
+    private CodecCreator<Message2BufEncoder<I>> encoderCreator;
+    private CodecCreator<Buf2MessageDecoder<I>> decoderCreator;
+
+    Action2<ChannelHandlerContext, I> onMessage;
+    Action2<ChannelHandlerContext, Throwable> onError;
+
+    AbstractHandler(CodecCreator<Message2BufEncoder<I>> encoderCreator,
+                    CodecCreator<Buf2MessageDecoder<I>> decoderCreator) {
+        this.encoderCreator = encoderCreator;
+        this.decoderCreator = decoderCreator;
+        setAction(null, null);
+    }
+
+    @SuppressWarnings("unchecked")
+    public AbstractHandler<I> setAction(Action2<ChannelHandlerContext, I> onMessage,
+                                        Action2<ChannelHandlerContext, Throwable> onError) {
         this.onMessage = onMessage != null ? onMessage : DEFAULT_ON_MESSAGE;
         this.onError = onError != null ? onError : DEFAULT_ON_ERROR;
+        return this;
     }
 
     @Override
-    public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception{
+    public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {
         onError.doAction(ctx, cause);
         super.exceptionCaught(ctx, cause);
     }
-
-    private static final Action2<ChannelHandlerContext, Message> DEFAULT_ON_MESSAGE = new Action2<ChannelHandlerContext, Message>() {
-        @Override
-        public void doAction(ChannelHandlerContext channelHandlerContext, Message message) throws Exception {
-
-        }
-    };
 
     private static final Action2<ChannelHandlerContext, Throwable> DEFAULT_ON_ERROR = new Action2<ChannelHandlerContext, Throwable>() {
         @Override
@@ -42,4 +53,19 @@ public abstract class AbstractHandler extends SimpleChannelInboundHandler<Messag
 
         }
     };
+
+    private static final Action2 DEFAULT_ON_MESSAGE = new Action2<ChannelHandlerContext, Object>() {
+        @Override
+        public void doAction(ChannelHandlerContext channelHandlerContext, Object t) throws Exception {
+
+        }
+    };
+
+    public Message2BufEncoder<I> getEncoder() throws Exception {
+        return encoderCreator.apply();
+    }
+
+    public Buf2MessageDecoder<I> getDecoder() throws Exception {
+        return decoderCreator.apply();
+    }
 }

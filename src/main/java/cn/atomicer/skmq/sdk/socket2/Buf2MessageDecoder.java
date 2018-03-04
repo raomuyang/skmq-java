@@ -1,5 +1,6 @@
 package cn.atomicer.skmq.sdk.socket2;
 
+import cn.atomicer.skmq.sdk.coding.Decoder;
 import cn.atomicer.skmq.sdk.coding.MessageDecoder;
 import cn.atomicer.skmq.sdk.model.Message;
 import io.netty.buffer.ByteBuf;
@@ -9,14 +10,19 @@ import io.netty.handler.codec.ByteToMessageDecoder;
 import java.util.List;
 
 /**
- * Created by Rao-Mengnan
- * on 2018/2/1.
+ * The message decode handler of the Netty handling process,
+ * depending on the type of decoder, different message entities
+ * are decoded
+ *
+ * @author Rao-Mengnan
+ *         on 2018/2/1.
  */
-public class Buf2MessageDecoder extends ByteToMessageDecoder{
-    private MessageDecoder decoder;
+public class Buf2MessageDecoder<T> extends ByteToMessageDecoder {
+    private Decoder<T> decoder;
 
-    public Buf2MessageDecoder() {
-        decoder = new MessageDecoder();
+    public Buf2MessageDecoder(Decoder<T> decoder) {
+
+        this.decoder = decoder;
     }
 
     @Override
@@ -29,9 +35,13 @@ public class Buf2MessageDecoder extends ByteToMessageDecoder{
         decoder.write(bytes, bytes.length);
 
         while (true) {
-            Message message = decoder.poolMessage();
+            T message = decoder.poolMessage();
             if (message == null) break;
             out.add(message);
         }
+    }
+
+    public static Buf2MessageDecoder<Message> getDefault() {
+        return new Buf2MessageDecoder<>(new MessageDecoder());
     }
 }

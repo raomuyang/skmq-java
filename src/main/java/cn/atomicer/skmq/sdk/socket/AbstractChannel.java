@@ -5,7 +5,6 @@ import cn.atomicer.skmq.sdk.coding.MessageEncoder;
 import cn.atomicer.skmq.sdk.functions.Function;
 import cn.atomicer.skmq.sdk.functions.Action;
 import cn.atomicer.skmq.sdk.model.Message;
-import cn.atomicer.skmq.sdk.model.MessageParameterEnum;
 
 import java.io.IOException;
 import java.nio.ByteBuffer;
@@ -18,6 +17,7 @@ import java.nio.channels.SocketChannel;
  */
 public abstract class AbstractChannel implements MessageChannel {
     private Dealing dealing = new Dealing();
+    private MessageEncoder encoder = new MessageEncoder();
     SocketChannel channel;
 
     @Override
@@ -39,7 +39,7 @@ public abstract class AbstractChannel implements MessageChannel {
 
     @Override
     public int write(Message message) throws IOException {
-        byte[] bytes = MessageEncoder.encode(message);
+        byte[] bytes = encoder.encode(message);
         return write(ByteBuffer.wrap(bytes));
     }
 
