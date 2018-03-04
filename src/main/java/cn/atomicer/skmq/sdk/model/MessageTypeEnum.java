@@ -1,10 +1,12 @@
 package cn.atomicer.skmq.sdk.model;
 
 /**
- * Created by Rao-Mengnan
- * on 2018/1/29.
+ * Enumeration of SKMQ message types
+ *
+ * @author Rao-Mengnan
+ *         on 2018/1/29.
  */
-public enum  MessageTypeEnum {
+public enum MessageTypeEnum {
     RECIPIENT_REGISTER("register", "注册类型消息"),
     PUSH("push", ""),
     PING("ping", ""),

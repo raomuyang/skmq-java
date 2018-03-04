@@ -1,10 +1,12 @@
 package cn.atomicer.skmq.sdk.model;
 
 /**
- * Created by Rao-Mengnan
- * on 2018/1/29.
+ * SKMQ parameters
+ *
+ * @author Rao-Mengnan
+ *         on 2018/1/29.
  */
-public enum  MessageParameterEnum {
+public enum MessageParameterEnum {
 
     MSG_ID("msgid", ""),
     APP_ID("appid", ""),

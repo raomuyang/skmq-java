@@ -5,8 +5,10 @@ import com.google.gson.annotations.SerializedName;
 import java.util.Arrays;
 
 /**
- * Created by Rao-Mengnan
- * on 2018/1/29.
+ * The default message format for SKMQ
+ *
+ * @author Rao-Mengnan
+ *         on 2018/1/29.
  */
 public class Message {
     @SerializedName("msgid")

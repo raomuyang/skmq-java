@@ -6,8 +6,11 @@ import io.netty.channel.socket.SocketChannel;
 
 
 /**
- * Created by Rao-Mengnan
- * on 2018/2/1.
+ * Initialize the processing of the client pipeline through
+ * {@link HandlerCreator}
+ *
+ * @author Rao-Mengnan
+ *         on 2018/2/1.
  */
 public class SocketClientInitializer<I> extends ChannelInitializer<SocketChannel> {
 

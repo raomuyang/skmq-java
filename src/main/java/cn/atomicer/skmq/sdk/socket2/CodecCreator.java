@@ -6,8 +6,13 @@ import cn.atomicer.skmq.sdk.functions.Function0;
 import cn.atomicer.skmq.sdk.model.Message;
 
 /**
- * Created by Rao-Mengnan
- * on 2018/3/4.
+ * The message decoder creates the function's interface, which contains two default
+ * create function entities. The user can implement this function and provide the
+ * instance as an argument to {@link HandlerCreator} so that the handler can get
+ * a custom codec
+ *
+ * @author Rao-Mengnan
+ *         on 2018/3/4.
  */
 public interface CodecCreator<R> extends Function0<R> {
 

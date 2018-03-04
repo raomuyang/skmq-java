@@ -7,8 +7,14 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 /**
- * Created by Rao-Mengnan
- * on 2018/2/1.
+ * AbstractHandler extends the {@link SimpleChannelInboundHandler}, which automatically creates the corresponding
+ * codec in the connection through the {@code encoderCreator} domain and the
+ * {@code decoderCreator} domain. The {@code onMessage} domain is responsible
+ * for processing the message as it is received. {@code onError} field is
+ * responsible for completing the action when an error occurs
+ *
+ * @author Rao-Mengnan
+ *         on 2018/2/1.
  */
 public abstract class AbstractHandler<I> extends SimpleChannelInboundHandler {
 
@@ -20,7 +26,7 @@ public abstract class AbstractHandler<I> extends SimpleChannelInboundHandler {
     Action2<ChannelHandlerContext, I> onMessage;
     Action2<ChannelHandlerContext, Throwable> onError;
 
-    AbstractHandler(CodecCreator<Message2BufEncoder<I>>  encoderCreator,
+    AbstractHandler(CodecCreator<Message2BufEncoder<I>> encoderCreator,
                     CodecCreator<Buf2MessageDecoder<I>> decoderCreator) {
         this.encoderCreator = encoderCreator;
         this.decoderCreator = decoderCreator;
@@ -36,7 +42,7 @@ public abstract class AbstractHandler<I> extends SimpleChannelInboundHandler {
     }
 
     @Override
-    public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception{
+    public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {
         onError.doAction(ctx, cause);
         super.exceptionCaught(ctx, cause);
     }

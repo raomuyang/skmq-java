@@ -4,8 +4,8 @@ import cn.atomicer.skmq.sdk.coding.MessageEncoder;
 import io.netty.channel.ChannelHandlerContext;
 
 /**
- * Created by Rao-Mengnan
- * on 2018/2/1.
+ * @author Rao-Mengnan
+ *         on 2018/2/1.
  */
 public class SocketServerHandler<I> extends AbstractHandler<I> {
 

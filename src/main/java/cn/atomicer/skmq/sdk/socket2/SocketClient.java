@@ -7,8 +7,10 @@ import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioSocketChannel;
 
 /**
- * Created by Rao-Mengnan
- * on 2018/2/1.
+ * Build a socket client launcher quickly with {@link SocketClient.Builder}
+ *
+ * @author Rao-Mengnan
+ *         on 2018/2/1.
  */
 public class SocketClient {
     private EventLoopGroup group;
@@ -62,6 +64,11 @@ public class SocketClient {
                 .handler(handlerInitializer);
     }
 
+    /**
+     * Asynchronously establish a connection with the server
+     *
+     * @return get {@link ChannelFuture} did not call {@code sync()}
+     */
     public ChannelFuture newConnect() {
         return bootstrap.connect(host, port);
     }

@@ -13,8 +13,11 @@ import org.apache.commons.logging.LogFactory;
 import static cn.atomicer.skmq.sdk.util.ObjectUtil.ensureNotNull;
 
 /**
- * Created by Rao-Mengnan
- * on 2018/2/6.
+ * Create a recipient service that automatically registers and opens up your
+ * own service by configuring server parameters
+ *
+ * @author Rao-Mengnan
+ *         on 2018/2/6.
  */
 public class RecipientServer {
     private Log log = LogFactory.getLog(getClass());

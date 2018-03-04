@@ -3,8 +3,8 @@ package cn.atomicer.skmq.sdk.socket2;
 import io.netty.channel.ChannelHandlerContext;
 
 /**
- * Created by Rao-Mengnan
- * on 2018/2/1.
+ * @author Rao-Mengnan
+ *         on 2018/2/1.
  */
 public class SocketClientHandler<I> extends AbstractHandler<I> {
 

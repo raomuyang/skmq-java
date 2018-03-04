@@ -10,8 +10,12 @@ import io.netty.handler.codec.ByteToMessageDecoder;
 import java.util.List;
 
 /**
- * Created by Rao-Mengnan
- * on 2018/2/1.
+ * The message decode handler of the Netty handling process,
+ * depending on the type of decoder, different message entities
+ * are decoded
+ *
+ * @author Rao-Mengnan
+ *         on 2018/2/1.
  */
 public class Buf2MessageDecoder<T> extends ByteToMessageDecoder {
     private Decoder<T> decoder;

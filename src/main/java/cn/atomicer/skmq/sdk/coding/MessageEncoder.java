@@ -11,6 +11,8 @@ import java.util.List;
 import java.util.Map;
 
 /**
+ * The default message encoder, {@link Message} message entity can be encoded as their own array
+ * <p>
  * Created by Rao-Mengnan
  * on 2018/1/30.
  */
@@ -48,7 +50,7 @@ public class MessageEncoder implements Encoder<Message> {
 
         List<byte[]> lines = new ArrayList<>();
         for (Map.Entry<String, byte[]> entry : kv.entrySet()) {
-            byte[] sub1 = (entry.getKey() + "=").getBytes();
+            byte[] sub1 = (entry.getKey() + MessageParameterEnum.PARAM_SEPARATOR.value()).getBytes();
             byte[] sub2 = entry.getValue();
             byte[] line = ArrayUtils.addAll(sub1, sub2);
             lines.add(line);

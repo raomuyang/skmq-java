@@ -5,8 +5,10 @@ import io.netty.channel.ChannelPipeline;
 import io.netty.channel.socket.SocketChannel;
 
 /**
- * Created by Rao-Mengnan
- * on 2018/2/1.
+ * Initialize the processing of the server pipeline through {@link HandlerCreator}
+ *
+ * @author Rao-Mengnan
+ *         on 2018/2/1.
  */
 public class SocketServerInitializer<I> extends ChannelInitializer<SocketChannel> {
 

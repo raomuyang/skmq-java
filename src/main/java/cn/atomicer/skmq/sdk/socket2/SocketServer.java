@@ -7,8 +7,10 @@ import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
 
 /**
- * Created by Rao-Mengnan
- * on 2018/2/1.
+ * Build a socket server launcher quickly with {@link SocketServer.Builder}
+ *
+ * @author Rao-Mengnan
+ *         on 2018/2/1.
  */
 public class SocketServer {
     private int port;
@@ -69,6 +71,11 @@ public class SocketServer {
                 .childHandler(handlerInitializer);
     }
 
+    /**
+     * Start a service asynchronously
+     *
+     * @return get {@link ChannelFuture} did not call {@code sync()}
+     */
     public ChannelFuture startUp() {
         return bootstrap.bind(port);
     }

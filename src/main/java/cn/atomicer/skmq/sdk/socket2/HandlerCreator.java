@@ -4,8 +4,16 @@ import cn.atomicer.skmq.sdk.functions.Action2;
 import io.netty.channel.ChannelHandlerContext;
 
 /**
- * Created by Rao-Mengnan
- * on 2018/3/4.
+ * In the netty messaging, the pipeline's handle should not be shared, otherwise the
+ * user can not rest assured that some of the concurrent jobs are completed. Provided
+ * to {@link SocketClientInitializer} or {@link SocketServerInitializer} via the
+ * {@code HandlerCreator} instance so that the handlers in each message pipe are not
+ * shared and do not cause some problems due to concurrency. Similarly, users can
+ * inherit it and override {@link HandlerCreator#createClientHandler()} and
+ * {@link HandlerCreator#createServerHandler()} to customize HandlerCreator
+ *
+ * @author Rao-Mengnan
+ *         on 2018/3/4.
  */
 public class HandlerCreator<I> {
 
@@ -21,7 +29,7 @@ public class HandlerCreator<I> {
     }
 
     public HandlerCreator<I> setAction(Action2<ChannelHandlerContext, I> onMessage,
-              Action2<ChannelHandlerContext, Throwable> onError) {
+                                       Action2<ChannelHandlerContext, Throwable> onError) {
         this.onMessage = onMessage;
         this.onError = onError;
         return this;

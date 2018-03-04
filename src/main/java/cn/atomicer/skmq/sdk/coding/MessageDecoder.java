@@ -10,8 +10,11 @@ import java.util.*;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
 /**
- * Created by Rao-Mengnan
- * on 2018/1/29.
+ * The default message decoder can decode a
+ * stream of bytes into a series of {@link Message} entities
+ *
+ * @author Rao-Mengnan
+ *         on 2018/1/29.
  */
 public class MessageDecoder implements Decoder<Message> {
     private byte[] buffer;
@@ -41,7 +44,6 @@ public class MessageDecoder implements Decoder<Message> {
     }
 
     /**
-     *
      * @return the head  message of this queue, or {@code null} if this queue is empty
      */
     @Override
@@ -66,7 +68,7 @@ public class MessageDecoder implements Decoder<Message> {
         }
 
         buffer = ArrayUtils.subarray(buffer, start, buffer.length);
-        for (byte[] line: lines) {
+        for (byte[] line : lines) {
 
             if (line.length == 4) {
                 String str = new String(line);
@@ -88,7 +90,7 @@ public class MessageDecoder implements Decoder<Message> {
                 continue;
             }
 
-            int index = ArrayUtils.indexOf(line, (byte) '=');
+            int index = ArrayUtils.indexOf(line, MessageParameterEnum.PARAM_SEPARATOR.value().getBytes()[0]);
             if (index < 0) {
                 throw new RuntimeException("Separator not found.");
             }

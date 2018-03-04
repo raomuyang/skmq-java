@@ -6,8 +6,12 @@ import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.MessageToByteEncoder;
 
 /**
- * Created by Rao-Mengnan
- * on 2018/2/1.
+ * The message encode handler of the Netty handling process,
+ * depending on the type of encoder, messages are encoded
+ * into different byte array
+ *
+ * @author Rao-Mengnan
+ *         on 2018/2/1.
  */
 public class Message2BufEncoder<T> extends MessageToByteEncoder {
     private Encoder<T> encoder;
