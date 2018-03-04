@@ -14,7 +14,7 @@ import java.util.Map;
  * Created by Rao-Mengnan
  * on 2018/1/30.
  */
-public class MessageEncoder {
+public class MessageEncoder implements Encoder<Message> {
 
     public static final Message PING;
     public static final Message PONG;
@@ -24,7 +24,8 @@ public class MessageEncoder {
         PONG = new Message(MessageTypeEnum.PONG.value());
     }
 
-    public static byte[] encode(Message message) {
+    @Override
+    public byte[] encode(Message message) {
         if (MessageTypeEnum.PING.value().equals(message.getType()) ||
                 MessageTypeEnum.PING.value().equals(message.getType())) {
             String str = message.getType() +
