@@ -50,6 +50,7 @@ public class SocketClientTest {
 
         channel.writeAndFlush(OneTimeServiceThread.PING);
         Thread.sleep(200);
+        channel.close().sync();
         client.shutdown();
 
         Assert.assertEquals(MessageEncoder.PING, thread.getQueue().poll());
@@ -58,7 +59,6 @@ public class SocketClientTest {
         Assert.assertEquals(false, checkMessage.queue.isEmpty());
         Assert.assertEquals(MessageEncoder.PONG, checkMessage.queue.poll());
         Assert.assertEquals(true, checkMessage.queue.isEmpty());
-
     }
 
     class MessageAction2 implements Action2<ChannelHandlerContext, Message> {

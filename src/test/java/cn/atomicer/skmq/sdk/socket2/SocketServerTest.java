@@ -4,6 +4,7 @@ import cn.atomicer.skmq.sdk.coding.MessageEncoder;
 import cn.atomicer.skmq.sdk.functions.Action2;
 import cn.atomicer.skmq.sdk.model.Message;
 import cn.atomicer.skmq.sdk.model.MessageTypeEnum;
+import io.netty.channel.Channel;
 import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelHandlerContext;
 import org.junit.Assert;
@@ -43,10 +44,12 @@ public class SocketServerTest {
                 .setHandlerCreator(handlerCreator)
                 .build();
         ChannelFuture future = server.startUp();
+        Channel channel = future.sync().channel();
 
         ClientOnMessage clientOnMessage = new ClientOnMessage();
         HandlerCreator<Message> clientHandlerCreator = new HandlerCreator<>(CodecCreator.DEFAULT_ENCODER_CREATOR, CodecCreator.DEFAULT_DECODER_CREATOR)
                 .setAction(clientOnMessage, null);
+
         SocketClient client = new SocketClient.Builder<Message>("127.0.0.1", port)
                 .setHandlerCreator(clientHandlerCreator)
                 .build();
@@ -70,7 +73,7 @@ public class SocketServerTest {
         Assert.assertEquals(null, clientOnMessage.queue.poll());
 
         server.shutdown();
-        future.sync().channel().closeFuture().sync();
+        channel.closeFuture().sync();
     }
 
     class OnMessage implements Action2<ChannelHandlerContext, Message> {
