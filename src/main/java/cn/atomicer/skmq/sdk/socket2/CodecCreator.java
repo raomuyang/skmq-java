@@ -1,6 +1,6 @@
 package cn.atomicer.skmq.sdk.socket2;
 
-import cn.atomicer.skmq.sdk.coding.MessageDecoder2;
+import cn.atomicer.skmq.sdk.coding.MessageDecoder;
 import cn.atomicer.skmq.sdk.coding.MessageEncoder2;
 import cn.atomicer.skmq.sdk.functions.Function0;
 import cn.atomicer.skmq.sdk.model.Message;
@@ -21,7 +21,7 @@ public interface CodecCreator<R> extends Function0<R> {
     CodecCreator<Buf2MessageDecoder<Message>> DEFAULT_DECODER_CREATOR = new CodecCreator<Buf2MessageDecoder<Message>>() {
         @Override
         public Buf2MessageDecoder<Message> apply() throws Exception {
-            return new Buf2MessageDecoder<>(new MessageDecoder2());
+            return new Buf2MessageDecoder<>(new MessageDecoder());
         }
     };
 

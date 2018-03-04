@@ -1,6 +1,5 @@
 package cn.atomicer.skmq.sdk.coding;
 
-import cn.atomicer.skmq.sdk.coding.MessageDecoder;
 import cn.atomicer.skmq.sdk.model.Message;
 import org.junit.Assert;
 import org.junit.Test;

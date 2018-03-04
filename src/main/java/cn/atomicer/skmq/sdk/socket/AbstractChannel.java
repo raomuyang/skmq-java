@@ -5,7 +5,6 @@ import cn.atomicer.skmq.sdk.coding.MessageEncoder;
 import cn.atomicer.skmq.sdk.functions.Function;
 import cn.atomicer.skmq.sdk.functions.Action;
 import cn.atomicer.skmq.sdk.model.Message;
-import cn.atomicer.skmq.sdk.model.MessageParameterEnum;
 
 import java.io.IOException;
 import java.nio.ByteBuffer;

@@ -1,7 +1,7 @@
 package cn.atomicer.skmq.sdk.socket2;
 
 import cn.atomicer.skmq.sdk.coding.Decoder;
-import cn.atomicer.skmq.sdk.coding.MessageDecoder2;
+import cn.atomicer.skmq.sdk.coding.MessageDecoder;
 import cn.atomicer.skmq.sdk.model.Message;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
@@ -38,6 +38,6 @@ public class Buf2MessageDecoder<T> extends ByteToMessageDecoder {
     }
 
     public static Buf2MessageDecoder<Message> getDefault() {
-        return new Buf2MessageDecoder<>(new MessageDecoder2());
+        return new Buf2MessageDecoder<>(new MessageDecoder());
     }
 }

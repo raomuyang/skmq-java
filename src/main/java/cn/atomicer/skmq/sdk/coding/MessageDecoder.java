@@ -13,7 +13,7 @@ import java.util.concurrent.ConcurrentLinkedQueue;
  * Created by Rao-Mengnan
  * on 2018/1/29.
  */
-public class MessageDecoder {
+public class MessageDecoder implements Decoder<Message> {
     private byte[] buffer;
     private Queue<Message> messages;
     private Map<String, Object> kv;
@@ -25,6 +25,7 @@ public class MessageDecoder {
         gson = new Gson();
     }
 
+    @Override
     public synchronized void write(byte[] bytes, int offset) {
         if (buffer == null) {
             buffer = new byte[offset];
@@ -43,6 +44,7 @@ public class MessageDecoder {
      *
      * @return the head  message of this queue, or {@code null} if this queue is empty
      */
+    @Override
     public Message poolMessage() {
         return messages.poll();
     }
