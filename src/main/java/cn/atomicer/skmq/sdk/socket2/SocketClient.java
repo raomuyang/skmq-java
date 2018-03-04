@@ -1,10 +1,7 @@
 package cn.atomicer.skmq.sdk.socket2;
 
-import cn.atomicer.skmq.sdk.functions.Action2;
-import cn.atomicer.skmq.sdk.model.Message;
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.ChannelFuture;
-import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.EventLoopGroup;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioSocketChannel;
@@ -20,30 +17,33 @@ public class SocketClient {
     private String host;
     private int port;
 
-    private Action2<ChannelHandlerContext, Message> onMessage;
-    private Action2<ChannelHandlerContext, Throwable> onError;
+    private SocketClientInitializer<?> handlerInitializer;
 
-    public static class Builder {
+    public static class Builder<T> {
         private SocketClient skClient;
+        private HandlerCreator<T> handlerCreator;
+
         public Builder(String host, int port) {
             skClient = new SocketClient(host, port);
         }
 
-        public Builder setAction(Action2<ChannelHandlerContext, Message> onMessage,
-                                 Action2<ChannelHandlerContext, Throwable> onError) {
-            skClient.onMessage = onMessage;
-            skClient.onError = onError;
-            return this;
-        }
-
-        public Builder setThread(int threads) {
+        public Builder<T> setThread(int threads) {
             if (threads >= 0) {
                 skClient.threads = threads;
             }
             return this;
         }
 
+        public Builder<T> setHandlerCreator(HandlerCreator<T> handlerCreator) {
+            this.handlerCreator = handlerCreator;
+            return this;
+        }
+
         public SocketClient build() {
+            if (handlerCreator == null) {
+                throw new IllegalArgumentException("client handler creator must be not null");
+            }
+            skClient.handlerInitializer = new SocketClientInitializer<>(handlerCreator);
             skClient.init();
             return skClient;
         }
@@ -59,7 +59,7 @@ public class SocketClient {
         group = new NioEventLoopGroup(threads);
         bootstrap = new Bootstrap();
         bootstrap.group(group).channel(NioSocketChannel.class)
-                .handler(new SocketClientInitializer(onMessage, onError));
+                .handler(handlerInitializer);
     }
 
     public ChannelFuture newConnect() {

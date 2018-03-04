@@ -18,6 +18,7 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 public class SocketServerTest {
 
     static final Message DEFAULT_MSG;
+
     static {
         DEFAULT_MSG = new Message(
                 "msg-id", "app-id",
@@ -31,16 +32,23 @@ public class SocketServerTest {
 
         OnMessage onMessage = new OnMessage();
         OnError onError = new OnError();
+
+        HandlerCreator<Message> handlerCreator = new HandlerCreator<>(
+                CodecCreator.DEFAULT_ENCODER_CREATOR, CodecCreator.DEFAULT_DECODER_CREATOR
+        ).setAction(onMessage, onError);
+
         SocketServer server = new SocketServer
-                .Builder(port)
+                .Builder<Message>(port)
                 .setBossThread(0)
-                .setAction(onMessage, onError)
+                .setHandlerCreator(handlerCreator)
                 .build();
         ChannelFuture future = server.startUp();
 
         ClientOnMessage clientOnMessage = new ClientOnMessage();
-        SocketClient client = new SocketClient.Builder("127.0.0.1", port)
-                .setAction(clientOnMessage, null)
+        HandlerCreator<Message> clientHandlerCreator = new HandlerCreator<>(CodecCreator.DEFAULT_ENCODER_CREATOR, CodecCreator.DEFAULT_DECODER_CREATOR)
+                .setAction(clientOnMessage, null);
+        SocketClient client = new SocketClient.Builder<Message>("127.0.0.1", port)
+                .setHandlerCreator(clientHandlerCreator)
                 .build();
 
         client.newConnect().sync().channel().writeAndFlush(DEFAULT_MSG);
@@ -67,6 +75,7 @@ public class SocketServerTest {
 
     class OnMessage implements Action2<ChannelHandlerContext, Message> {
         ConcurrentLinkedQueue<Message> queue = new ConcurrentLinkedQueue<>();
+
         @Override
         public void doAction(ChannelHandlerContext channelHandlerContext, Message message) throws Exception {
             queue.add(message);

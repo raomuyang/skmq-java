@@ -1,10 +1,7 @@
 package cn.atomicer.skmq.sdk.socket2;
 
-import cn.atomicer.skmq.sdk.functions.Action2;
-import cn.atomicer.skmq.sdk.model.Message;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.ChannelFuture;
-import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.EventLoopGroup;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
@@ -20,39 +17,40 @@ public class SocketServer {
     private ServerBootstrap bootstrap;
     private EventLoopGroup bossGroup;
     private EventLoopGroup workerGroup;
+    private SocketServerInitializer<?> handlerInitializer;
 
-    private Action2<ChannelHandlerContext, Message> onMessage;
-    private Action2<ChannelHandlerContext, Throwable> onError;
-
-    public static class Builder {
+    public static class Builder<T> {
         private SocketServer server;
+        private HandlerCreator<T> handlerCreator;
 
         public Builder(int port) {
             this.server = new SocketServer(port);
         }
 
-        public Builder setAction(Action2<ChannelHandlerContext, Message> onMessage,
-                                 Action2<ChannelHandlerContext, Throwable> onError) {
-            server.onMessage = onMessage;
-            server.onError = onError;
-            return this;
-        }
-
-        public Builder setBossThread(int threads) {
+        public Builder<T> setBossThread(int threads) {
             if (threads >= 0) {
                 server.bossThreads = threads;
             }
             return this;
         }
 
-        public Builder setWorkerThread(int threads) {
+        public Builder<T> setWorkerThread(int threads) {
             if (threads >= 0) {
                 server.workerThreads = threads;
             }
             return this;
         }
 
+        public Builder<T> setHandlerCreator(HandlerCreator<T> handlerCreator) {
+            this.handlerCreator = handlerCreator;
+            return this;
+        }
+
         public SocketServer build() {
+            if (handlerCreator == null) {
+                throw new IllegalArgumentException("server handler creator must be not null");
+            }
+            server.handlerInitializer = new SocketServerInitializer<>(handlerCreator);
             server.init();
             return server;
         }
@@ -68,7 +66,7 @@ public class SocketServer {
         workerGroup = new NioEventLoopGroup(workerThreads);
         bootstrap.group(bossGroup, workerGroup)
                 .channel(NioServerSocketChannel.class)
-                .childHandler(new SocketServerInitializer(onMessage, onError));
+                .childHandler(handlerInitializer);
     }
 
     public ChannelFuture startUp() {

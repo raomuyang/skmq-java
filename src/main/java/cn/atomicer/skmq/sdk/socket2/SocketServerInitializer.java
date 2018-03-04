@@ -1,8 +1,5 @@
 package cn.atomicer.skmq.sdk.socket2;
 
-import cn.atomicer.skmq.sdk.functions.Action2;
-import cn.atomicer.skmq.sdk.model.Message;
-import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.ChannelPipeline;
 import io.netty.channel.socket.SocketChannel;
@@ -11,27 +8,24 @@ import io.netty.channel.socket.SocketChannel;
  * Created by Rao-Mengnan
  * on 2018/2/1.
  */
-public class SocketServerInitializer extends ChannelInitializer<SocketChannel> {
+public class SocketServerInitializer<I> extends ChannelInitializer<SocketChannel> {
 
-    private Action2<ChannelHandlerContext, Message> onMessage;
-    private Action2<ChannelHandlerContext, Throwable> onError;
+    private HandlerCreator<I> handlerCreator;
 
-    public SocketServerInitializer() {
-    }
-
-    public SocketServerInitializer(Action2<ChannelHandlerContext, Message> onMessage, Action2<ChannelHandlerContext, Throwable> onError) {
-        this.onMessage = onMessage;
-        this.onError = onError;
+    public SocketServerInitializer(HandlerCreator<I> handlerCreator) {
+        this.handlerCreator = handlerCreator;
     }
 
     @Override
     protected void initChannel(SocketChannel channel) throws Exception {
+        if (handlerCreator == null) {
+            throw new IllegalArgumentException("server handler must be not null");
+        }
         ChannelPipeline pipeline = channel.pipeline();
-        pipeline.addLast(new Buf2MessageDecoder());
-        pipeline.addLast(new Message2BufEncoder());
-
-        SocketServerHandler handler = new SocketServerHandler();
-        handler.setAction(onMessage, onError);
-        pipeline.addLast(handler);
+        AbstractHandler<I> serverHandler = handlerCreator.createServerHandler();
+        pipeline.addLast(serverHandler.getDecoder());
+        pipeline.addLast(serverHandler.getEncoder());
+        pipeline.addLast(serverHandler);
     }
+
 }
