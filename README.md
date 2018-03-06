@@ -7,4 +7,17 @@ Bootstrap a server/client to communicate with Sikong-MQ
 * Asynchronous io    异步IO
 * TCP unpack, auto encode/decode TCP拆包、消息自动编码解码
 
+### Maven
+```xml
+<dependency>
+    <groupId>cn.atomicer.skmq</groupId>
+    <artifactId>skmq-java-tool</artifactId>
+    <version>2.0.0</version>
+</dependency>
+```
+### Gradle
+```
+compile group: 'cn.atomicer.skmq', name: 'skmq-java-tool', version: '2.0.0'
+```
+
 SKMQ: https://github.com/raomuyang/sikong-mq
