@@ -8,3 +8,16 @@ script:
 env:
   global:
     secure: XbOajH9WceruPX0YN3ND6jFfExPEfQBkDn5qZaKurN3BYtcmb3GJwbxBQeERHUUyWIZrmrnnh3MmkgTqIcQlehUdHLVVg/PsEIUY+kcJMhbv5Inq7BOt0tOyPd25FHx5Ep95vtZ/8fkuDfwvKtp/jnV7G2Y5eog5+YDukFLGY9wzuEyjGWni2BtoUcfw2hb2IXM5yIYcGEw+dhVBHsxfW4q2LuGm4kffutYGVid/KsyaiW8xqHbkOlytieuCYoYXv/3wA6DS9tmfMaH3YNinwe1MTswLXj/Q50tQCa/3afITRl6R8lYL7SKUTNCv/49hoYgKkMLwq5zve5CfqrZVrXx6j14j6sppegx1Y167LVCAKJibGQlgN3Oz3F8Zq8PzphBuF4IpGdwA3fDfQE/wTctioFWY4ltf1zMydRPMxj/2OTQLSwN81pF+D4/+RVccrtsTNbeZDz/9NER0yiA/3Ibn4Ur8XoB0t9ibhg/SAhM8ee6RgVPv6/PNXUqk/3UzGCuwt5jOLOB20lhl6Wbx+/jzbHixLUUikzJqca5FWGvHbLzfvY6yQrWusaB/X0pr2bafnRZ8u7BOO17dvLM6EToqaZsZkPX1nG3Y9ZvW+TPztZAU1vpN0bvRB+uo1JrhgryWHPmG6neI/xH168odpAq4CzKfTycR1yDInzJjRJc=
+install:
+  - export SOURCE=`pwd`
+before_deploy:
+  - mvn clean package
+  - mkdir releases
+  - mv  $SOURCE/target/chopsticks-*.jar releases/
+deploy:
+  provider: releases
+  api_key: $GITHUB_TOKEN
+  skip-cleanup: true
+  file: $SOURCE/releases/*
+  on:
+    tags: true
