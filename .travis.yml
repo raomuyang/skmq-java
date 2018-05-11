@@ -1,6 +1,9 @@
 language: java
 jdk:
 - oraclejdk8
+cache:
+  directories:
+  - "$HOME/.m2"
 script:
 - mvn test
 - mvn jacoco:report
@@ -10,7 +13,7 @@ install:
 before_deploy:
 - mvn clean package
 - mkdir releases
-- mv  $SOURCE/target/chopsticks-*.jar releases/
+- mv  $SOURCE/target/*.jar releases/
 deploy:
   provider: releases
   api_key: "$GITHUB_TOKEN"
