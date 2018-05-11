@@ -10,17 +10,16 @@
         <version>9</version>
     </parent>
 
-    <groupId>cn.atomicer.skmq</groupId>
-    <artifactId>skmq-java-tool</artifactId>
-    <version>2.0.0</version>
+    <groupId>cn.atomicer.zephyr</groupId>
+    <artifactId>zephyr-io</artifactId>
+    <version>1.0.0</version>
 
     <packaging>jar</packaging>
     <description>
-        Tools for sikong-mq.
-        Please Use JDK 1.7+.
+        Building highly available socket communication through netty.
     </description>
-    <name>skmq-java-tool</name>
-    <url>https://github.com/raomuyang/sikong-mq</url>
+    <name>zephyr-io</name>
+    <url>https://github.com/raomuyang/zephyr-io</url>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -115,13 +114,13 @@
     </licenses>
     <scm>
         <tag>master</tag>
-        <url>git@github.com:raomuyang/skmq-java-tool.git</url>
-        <connection>scm:git:git@github.com:raomuyang/skmq-java-tool.git</connection>
-        <developerConnection>scm:git:git@github.com:raomuyang/skmq-java-tool.git</developerConnection>
+        <url>git@github.com:raomuyang/zephyr-io.git</url>
+        <connection>scm:git:git@github.com:raomuyang/zephyr-io.git</connection>
+        <developerConnection>scm:git:git@github.com:raomuyang/zephyr-io.git</developerConnection>
     </scm>
     <developers>
         <developer>
-            <name>skmq-java-tool</name>
+            <name>zephyr-io</name>
             <email>raomengnan@gmail.com</email>
             <organization>atomicer</organization>
         </developer>
