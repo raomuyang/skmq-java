@@ -8,14 +8,12 @@
 ### Maven
 ```xml
 <dependency>
-    <groupId>cn.atomicer.skmq</groupId>
-    <artifactId>skmq-java-tool</artifactId>
-    <version>2.0.0</version>
+    <groupId>cn.atomicer.zephyr</groupId>
+    <artifactId>zephyr-io</artifactId>
+    <version>LATEST</version>
 </dependency>
 ```
 ### Gradle
 ```
-compile group: 'cn.atomicer.skmq', name: 'skmq-java-tool', version: '2.0.0'
+compile group: 'cn.atomicer.zephyr', name: 'zephyr-io', version: '1.0.0'
 ```
-
-SKMQ: https://github.com/raomuyang/sikong-mq
