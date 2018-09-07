@@ -4,22 +4,17 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <parent>
-        <groupId>org.sonatype.oss</groupId>
-        <artifactId>oss-parent</artifactId>
-        <version>9</version>
-    </parent>
-
-    <groupId>cn.atomicer.zephyr</groupId>
-    <artifactId>zephyr-io</artifactId>
-    <version>1.0.0</version>
+    <groupId>cn.atomicer.skmq</groupId>
+    <artifactId>skmq-java-tool</artifactId>
+    <version>2.1.0</version>
 
     <packaging>jar</packaging>
     <description>
-        Building highly available socket communication through netty.
+        The java sdk for sikong-mq (https://github.com/raomuyang/sikong-mq).
+        Please Use JDK 1.7+.
     </description>
-    <name>zephyr-io</name>
-    <url>https://github.com/raomuyang/zephyr-io</url>
+    <name>skmq-java-tool</name>
+    <url>https://github.com/raomuyang/skmq-java-tool</url>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -94,33 +89,57 @@
                 <artifactId>coveralls-maven-plugin</artifactId>
                 <version>4.3.0</version>
             </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <configuration>
-                    <source>1.8</source>
-                    <target>1.8</target>
-                </configuration>
-            </plugin>
         </plugins>
     </build>
+
+    <distributionManagement>
+        <snapshotRepository>
+            <id>ossrh</id>
+            <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+        </snapshotRepository>
+        <repository>
+            <id>ossrh</id>
+            <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+        </repository>
+    </distributionManagement>
+
+    <profiles>
+        <profile>
+            <id>ossrh</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.sonatype.plugins</groupId>
+                        <artifactId>nexus-staging-maven-plugin</artifactId>
+                        <version>1.6.7</version>
+                        <extensions>true</extensions>
+                        <configuration>
+                            <serverId>ossrh</serverId>
+                            <nexusUrl>https://oss.sonatype.org/</nexusUrl>
+                            <autoReleaseAfterClose>false</autoReleaseAfterClose>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
 
     <licenses>
         <license>
             <name>The MIT License</name>
-            <url>http://www.opensource.org/licenses/mit-license.php</url>
+            <url>https://raw.githubusercontent.com/raomuyang/skmq-java-tool/master/LICENSE</url>
             <distribution>repo</distribution>
         </license>
     </licenses>
     <scm>
         <tag>master</tag>
-        <url>git@github.com:raomuyang/zephyr-io.git</url>
-        <connection>scm:git:git@github.com:raomuyang/zephyr-io.git</connection>
-        <developerConnection>scm:git:git@github.com:raomuyang/zephyr-io.git</developerConnection>
+        <url>git@github.com:raomuyang/skmq-java-tool.git</url>
+        <connection>scm:git:git@github.com:raomuyang/skmq-java-tool.git</connection>
+        <developerConnection>scm:git:git@github.com:raomuyang/skmq-java-tool.git</developerConnection>
     </scm>
     <developers>
         <developer>
-            <name>zephyr-io</name>
+            <name>raomengnan</name>
             <email>raomengnan@gmail.com</email>
             <organization>atomicer</organization>
         </developer>

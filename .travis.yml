@@ -17,10 +17,8 @@ before_deploy:
 deploy:
   provider: releases
   api_key: "$GITHUB_TOKEN"
+  file_glob: true
   skip-cleanup: true
   file: "$SOURCE/releases/*"
   on:
     tags: true
-env:
-  global:
-    secure: 5060Vs1VhnHmGv4bm3Wyrzvc9odoXiv0PLHTTLVfKaev4LNmBEH6pCTeWqzzf7KYXtzb2htv8IXu0dXhQ0wKUuDJQCRUNROKXb3hpFCl27KtfGbtE4HSdFO7jAZoG5LyCNcKOSYBOisaWQ6/OnVmNokba97sg1zPBwkMrIBKHvAETjokvjJttcc77Dn474En97wX30VId2p+Z7FRPT6thtVvOQ7AVBtJhQ6qHhbhP6xalBATbwLEcLdQJQUrkUbRd96tzpebSfiWpAXd+3IyhsspKql8/DrFHvXBJyWQwnQpO/1yF0h7CibAO+I0sVgX5cKfGLOqAzoQE+rCetmpMiN4dBa8vSBBAcn4mXe5xjaZ75WvVq2NE0oJFMMc3IJ/f/nv3qmsyiz4vLCcrTWM8eGKGL1YfI4q6uZJcN940zPzVl6P0ylFBVgPZ1aG+9M/BaNcunp5qzufAD8Co8SluvQdlv/wT/A7XE3fUHLqKAtvDaCpqq5oBgkowXuEKxMV/dEZt6/YGEYkAk5nSLiVW92YpoPYhpdo95yQZjbC03NSsYXkCP3QJNvcv/nk3ehnMGZkxRTvXKwHEYzgYiCL4OBZ1j11fOh1h/JuSMKGY7n4EVmGlL/obSbwGFDchlX7EjtB0S4aio1y+SqJLSCabWzSNl2/PfXHX7jlJlsVVkY=
